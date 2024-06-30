@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Session</title>
+</head>
+<body>
+    <h1>Edit Session</h1>
+    <form action="" method="POST">
+        <label for="email">Email:</label>
+        <input type="email" name="email" value="{{ session.email }}" required>
+        <br>
+        <label for="date">Date:</label>
+        <input type="date" name="date" value="{{ session.date }}" required>
+        <br>
+        <label for="time">Time:</label>
+        <input type="text" name="time" value="{{ session.time }}" required>
+        <br>
+        <button type="submit">Save</button>
+    </form>
+    <a href="{{ url_for('admin.admin_dashboard') }}">Back to Dashboard</a>
+    {% for mesg in get_flashed_messages() %}
+      <p class="text-center mt-3">{{ mesg }}</p>
+    {% endfor %}
+</body>
+</html>

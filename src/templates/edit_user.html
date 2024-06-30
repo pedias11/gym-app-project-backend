@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit User</title>
+</head>
+<body>
+    <h1>Edit User</h1>
+    <form action="" method="POST">
+        <label for="firstname">First Name:</label>
+        <input type="text" name="firstname" value="{{ user.firstname }}" required>
+        <br>
+        <label for="lastname">Last Name:</label>
+        <input type="text" name="lastname" value="{{ user.lastname }}" required>
+        <br>
+        <label for="email">Email:</label>
+        <input type="email" name="email" value="{{ user.email }}" required>
+        <br>
+        <label for="subscription">Subscription:</label>
+        <input type="text" name="subscription" value="{{ user.subscription }}">
+        <br>
+        <button type="submit">Save</button>
+    </form>
+    <a href="{{ url_for('admin.admin_dashboard') }}">Back to Dashboard</a>
+    {% for mesg in get_flashed_messages() %}
+      <p class="text-center mt-3">{{ mesg }}</p>
+    {% endfor %}
+</body>
+</html>

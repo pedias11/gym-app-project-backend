@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+
+         <div class="d-flex justify-content-end">
+            <form action="{{ url_for('admin.admin_logout') }}" method="post">
+                <button type="submit" class="btn btn-danger">Logout</button>
+            </form>
+         </div>
+
+        <h1 class="text-center">Admin Dashboard</h1>
+
+        <ul class="nav nav-tabs mb-4" id="myTab" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="users-tab" data-toggle="tab" href="#users" role="tab" aria-controls="users" aria-selected="true">Users</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="sessions-tab" data-toggle="tab" href="#sessions" role="tab" aria-controls="sessions" aria-selected="false">Sessions</a>
+            </li>
+        </ul>
+
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="users" role="tabpanel" aria-labelledby="users-tab">
+
+                <div class="d-flex justify-content-end mb-4">
+                    <form action="{{ url_for('admin.search_user_by_lastname') }}" method="POST" class="form-inline">
+                        <div class="form-group mr-2">
+                            <label for="lastname" class="mr-2">Search User by Last Name</label>
+                            <input type="text" class="form-control" id="lastname" name="lastname" placeholder="Enter last name">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Search</button>
+                    </form>
+                </div>
+
+                <h2 class="text-center">Users</h2>
+
+                <div class="d-flex justify-content-end mb-3">
+                    <a href="{{ url_for('admin.create_user') }}" class="btn btn-success">Add new user</a>
+                </div>
+                <table class="table table-bordered table-striped text-center">
+                    <thead>
+                        <tr>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Email</th>
+                            <th>Subscription</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for user in users %}
+                        <tr>
+                            <td>{{ user.firstname }}</td>
+                            <td>{{ user.lastname }}</td>
+                            <td>{{ user.email }}</td>
+                            <td>{{ user.subscription }}</td>
+                            <td>
+                                <a href="{{ url_for('admin.edit_user', user_id=user.id) }}" class="btn btn-warning btn-sm">Edit</a>
+                                <form action="{{ url_for('admin.delete_user', user_id=user.id) }}" method="POST" style="display:inline;">
+                                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="tab-pane fade" id="sessions" role="tabpanel" aria-labelledby="sessions-tab">
+
+                <div class="d-flex justify-content-end mb-4">
+                    <form action="{{ url_for('admin.get_sessions_by_email') }}" method="POST" class="form-inline">
+                        <div class="form-group mr-2">
+                            <label for="email" class="mr-2">Search Sessions by Email</label>
+                            <input type="email" class="form-control" id="email" name="email" placeholder="Enter email">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Search</button>
+                    </form>
+                </div>
+
+                <div class="d-flex justify-content-end mb-4">
+                    <form action="{{ url_for('admin.get_sessions_by_date') }}" method="POST" class="form-inline">
+                        <div class="form-group mr-2">
+                            <label for="date" class="mr-2">Search Sessions by Date</label>
+                            <input type="date" class="form-control" id="date" name="date">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Search</button>
+                    </form>
+                </div>
+
+                <h2 class="text-center">Sessions</h2>
+  
+                <div class="d-flex justify-content-end mb-3">
+                    <a href="{{ url_for('admin.create_session') }}" class="btn btn-success">Add Session</a>
+                </div>
+                <table class="table table-bordered table-striped text-center">
+                    <thead>
+                        <tr>
+                            <th>Email</th>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for session in sessions %}
+                        <tr>
+                            <td>{{ session.email }}</td>
+                            <td>{{ session.date }}</td>
+                            <td>{{ session.time }}</td>
+                            <td>
+                                <a href="{{ url_for('admin.edit_session', session_id=session.id) }}" class="btn btn-warning btn-sm">Edit</a>
+                                <form action="{{ url_for('admin.delete_session', session_id=session.id) }}" method="POST" style="display:inline;">
+                                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        {% for mesg in get_flashed_messages() %}
+            <p class="text-center mt-3">{{ mesg }}</p>
+        {% endfor %}
+
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
+
